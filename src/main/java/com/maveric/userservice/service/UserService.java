@@ -1,9 +1,9 @@
 package com.maveric.userservice.service;
 
-import com.maveric.userservice.model.User;
+import com.maveric.userservice.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
+    List<UserDto> getAllUsers(int page, int pageSize);
 }

@@ -1,9 +1,10 @@
 package com.maveric.userservice.controller;
 
-import com.maveric.userservice.model.User;
+import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers(@RequestParam(value = "page", defaultValue = "0", required = false) int page,
+                                     @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize){
+        return userService.getAllUsers(page, pageSize);
     }
 }
