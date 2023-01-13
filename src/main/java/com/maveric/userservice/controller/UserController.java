@@ -1,5 +1,6 @@
 package com.maveric.userservice.controller;
 
+import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable("userId") long userId, @RequestBody User user){
-        return new ResponseEntity<User>(userService.updateUser(user, userId), HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") long userId, @RequestBody UserDto userDto){
+        return new ResponseEntity<UserDto>(userService.updateUser(userDto, userId), HttpStatus.OK);
     }
 }

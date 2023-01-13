@@ -10,8 +10,6 @@ import java.util.Date;
 @Data
 public class UserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String middleName;
@@ -20,5 +18,6 @@ public class UserDto {
     private String phoneNumber;
     private String address;
     private Date dateOfBirth;
+    private String password;
     private String gender;
 }
