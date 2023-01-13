@@ -1,6 +1,6 @@
 package com.maveric.userservice.controller;
 
-import com.maveric.userservice.model.User;
+import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/users/getUserByEmail/{emailId}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable("emailId") String email){
-        return new ResponseEntity<User>(userService.getUserByEmail(email), HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable("emailId") String email){
+        return new ResponseEntity<UserDto>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 }
