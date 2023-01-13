@@ -1,5 +1,6 @@
 package com.maveric.userservice.controller;
 
+import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable("userId") long id){
-        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") long id){
+        return new ResponseEntity<UserDto>(userService.getUserById(id), HttpStatus.OK);
     }
 }
