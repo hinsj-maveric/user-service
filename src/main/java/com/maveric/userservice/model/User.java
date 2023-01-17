@@ -1,5 +1,6 @@
 package com.maveric.userservice.model;
 
+import com.maveric.userservice.constant.Gender;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,30 +18,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @Column(nullable = false)
     private String firstName;
 
     private String middleName;
 
-//    @Column(nullable = false)
     private String lastName;
 
-//    @Column(nullable = false)
     private String email;
 
-//    @Column(nullable = false)
     private String phoneNumber;
 
-//    @Column(nullable = false)
     private String address;
 
     private Date dateOfBirth;
 
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
-//    @Column(nullable = false)
     private String password;
 
+    @Column(updatable = false)
     private Date createdAt = new Date();
 
     private Date updatedAt = new Date();
