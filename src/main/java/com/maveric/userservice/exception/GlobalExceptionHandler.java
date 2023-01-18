@@ -27,6 +27,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Error>(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Error> handleUserNotFound(UserNotFoundException e) {
+        Error error = getError(e.getMessage(), String.valueOf(HttpStatus.NOT_FOUND.value()));
+        return new ResponseEntity<Error>(error, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<Error> handleFormatException(HttpMessageNotReadableException e) {
         Error error = getError(MessageConstant.GENDER_ERROR, String.valueOf(HttpStatus.BAD_REQUEST));
