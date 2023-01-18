@@ -47,7 +47,6 @@ public class DtoToModelConverter {
         user.setGender(userDto.getGender());
         return user;
     }
-
     public UserDto userToDtoUpdate(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());

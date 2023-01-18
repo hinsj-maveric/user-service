@@ -16,7 +16,6 @@ import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -70,11 +69,18 @@ public class UserServiceImpl implements UserService {
         List<UserDto> userDtos = users.stream().map(user -> dtoToModelConverter.userToDtoUpdate(user)).collect(Collectors.toList());
         return userDtos;
     }
+
     @Override
     public UserDto getUserById(long id) {
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new UserNotFoundException("User not found with id " + id));
+                () -> new UserNotFoundException("User not found with id " + id));
+        return dtoToModelConverter.userToDtoUpdate(user);
+    }
 
+    @Override
+    public UserDto getUserByEmail(String email) {
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                ()-> new UserNotFoundException("User not found with email " + email));
         return dtoToModelConverter.userToDtoUpdate(user);
     }
 }
