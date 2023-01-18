@@ -58,7 +58,6 @@ public class DtoToModelConverter {
         userDto.setPhoneNumber(user.getPhoneNumber());
         userDto.setAddress(user.getAddress());
         userDto.setDateOfBirth(user.getDateOfBirth());
-        userDto.setPassword(user.getPassword());
         userDto.setGender(user.getGender());
         return userDto;
     }
