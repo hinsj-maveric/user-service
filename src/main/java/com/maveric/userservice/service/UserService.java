@@ -7,4 +7,5 @@ public interface UserService {
     UserDto createUser(UserDto userDto);
     UserDto updateUser(UserDto userDto, long userId);
     List<UserDto> getAllUsers(int page, int pageSize);
+    UserDto getUserById(long id);
 }

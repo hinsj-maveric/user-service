@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
@@ -40,6 +41,7 @@ public class UserServiceImpl implements UserService {
         return dtoToModelConverter.userToDtoCreate(savedUser);
     }
 
+    @Override
     public UserDto updateUser(UserDto userDto, long userId) {
         User existingUser = userRepository.findById(userId).orElseThrow(
                 () -> new UserNotFoundException("User not Found with id " + userId));
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
         return userDto1;
     }
 
+    @Override
     public List<UserDto> getAllUsers(int page, int pageSize) {
 
         Pageable pageable = PageRequest.of(page, pageSize);
@@ -66,5 +69,12 @@ public class UserServiceImpl implements UserService {
         List<User> users = userPage.getContent();
         List<UserDto> userDtos = users.stream().map(user -> dtoToModelConverter.userToDtoUpdate(user)).collect(Collectors.toList());
         return userDtos;
+    }
+    @Override
+    public UserDto getUserById(long id) {
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new UserNotFoundException("User not found with id " + id));
+
+        return dtoToModelConverter.userToDtoUpdate(user);
     }
 }
