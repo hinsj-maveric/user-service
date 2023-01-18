@@ -23,17 +23,19 @@ public class DtoToModelConverter {
 
     public UserDto userToDtoCreate(User user) {
         UserDto userDto = new UserDto();
-        user.setId(userDto.getId());
-        user.setFirstName(userDto.getFirstName());
-        user.setMiddleName(userDto.getMiddleName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-        user.setAddress(userDto.getAddress());
-        user.setDateOfBirth(userDto.getDateOfBirth());
-        user.setGender(userDto.getGender());
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setMiddleName(user.getMiddleName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setAddress(user.getAddress());
+        userDto.setDateOfBirth(user.getDateOfBirth());
+        userDto.setPassword(user.getPassword());
+        userDto.setGender(user.getGender());
         return userDto;
     }
+
     public User dtoToUserUpdate(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());

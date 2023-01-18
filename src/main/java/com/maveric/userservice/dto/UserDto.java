@@ -1,5 +1,6 @@
 package com.maveric.userservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.constraints.BirthDateValidator;
 import com.maveric.userservice.constraints.GenderValidator;
@@ -39,7 +40,7 @@ public class UserDto {
     @Past(message = "The date of birth must be in the past")
     private Date dateOfBirth;
 
-    @NotEmpty(message = "Password cannot be blank")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$",
             message = "Password must contain atleast one upper case, one lower case, one number and one special character")
     private String password;

@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
-import com.maveric.userservice.model.User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +40,7 @@ public class UserController {
     }
     
     @PutMapping("/users/{userId}")
-    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable("userId") long userId, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") long userId, @Valid @RequestBody UserDto userDto) {
         return new ResponseEntity<UserDto>(userService.updateUser(userDto, userId), HttpStatus.OK);
     }
 
