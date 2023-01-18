@@ -1,6 +1,5 @@
 package com.maveric.userservice.controller;
 
-
 import com.maveric.userservice.service.UserService;
 import com.maveric.userservice.dto.UserDto;
 import jakarta.validation.Valid;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -31,5 +31,10 @@ public class UserController {
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         userDto.setPassword(this.bCryptPasswordEncoder.encode(userDto.getPassword()));
         return new ResponseEntity<UserDto>(userService.createUser(userDto), HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/users/{userId}")
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable("userId") long userId, @RequestBody UserDto userDto){
+        return new ResponseEntity<UserDto>(userService.updateUser(userDto, userId), HttpStatus.OK);
     }
 }
