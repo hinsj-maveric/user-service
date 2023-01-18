@@ -80,7 +80,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(
-                ()-> new UserNotFoundException("User not found with email " + email));
+                () -> new UserNotFoundException("User not found with email " + email));
         return dtoToModelConverter.userToDtoUpdate(user);
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        userRepository.findById(id).orElseThrow(
+                ()->new UserNotFoundException("User not found with id " + id));
+        userRepository.deleteById(id);
     }
 }

@@ -9,4 +9,5 @@ public interface UserService {
     List<UserDto> getAllUsers(int page, int pageSize);
     UserDto getUserById(long id);
     UserDto getUserByEmail(String email);
+    void deleteUser(long id);
 }
