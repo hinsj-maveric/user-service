@@ -28,6 +28,6 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(
                 ()-> new UserNotFoundException("User not found with email " + email));
-        return dtoToModelConverter.userToDtoUpdate(user);
+        return dtoToModelConverter.userToDtoEmail(user);
     }
 }
