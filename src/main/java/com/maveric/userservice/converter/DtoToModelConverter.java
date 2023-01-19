@@ -62,4 +62,19 @@ public class DtoToModelConverter {
         userDto.setGender(user.getGender());
         return userDto;
     }
+
+    public UserDto userToDtoEmail(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setMiddleName(user.getMiddleName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPhoneNumber(user.getPhoneNumber());
+        userDto.setAddress(user.getAddress());
+        userDto.setDateOfBirth(user.getDateOfBirth());
+        userDto.setGender(user.getGender());
+        userDto.setPassword(user.getPassword());
+        return userDto;
+    }
 }
