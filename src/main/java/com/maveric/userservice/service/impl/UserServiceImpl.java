@@ -2,6 +2,7 @@ package com.maveric.userservice.service.impl;
 
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.exception.EmailDuplicateException;
 import com.maveric.userservice.exception.UserNotFoundException;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.repository.UserRepository;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UserDto userDto, long userId) {
         User existingUser = userRepository.findById(userId).orElseThrow(
                 ()->new UserNotFoundException("User not Found with id " + userId));
+        if(userRepository.findUserByEmail(userDto.getEmail()).isPresent()){
+            throw new EmailDuplicateException("Duplicate Email");
+        }
 
         existingUser.setFirstName(userDto.getFirstName());
         existingUser.setLastName(userDto.getLastName());
