@@ -18,26 +18,26 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
 
     @Autowired
-    private DtoToModelConverter dtoToModelConverter;
+    UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
-    }
+    DtoToModelConverter dtoToModelConverter;
 
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = dtoToModelConverter.dtoToUserCreate(userDto);
         Optional<User> existingUser = userRepository.findUserByEmail(user.getEmail());
-        if (existingUser.isPresent()) throw new EmailDuplicateException(
-                "User with email " + userDto.getEmail() + " already exist");
+        if (!existingUser.isPresent()) {
 
-        User savedUser = userRepository.save(user);
-        return dtoToModelConverter.userToDtoCreate(savedUser);
+            User savedUser = userRepository.save(user);
+            return dtoToModelConverter.userToDtoCreate(savedUser);
+
+        } else {
+            throw new EmailDuplicateException(
+                    "User with email " + userDto.getEmail() + " already exist");
+        }
     }
 
     @Override
