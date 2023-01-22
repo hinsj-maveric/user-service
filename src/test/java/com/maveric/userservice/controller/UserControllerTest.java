@@ -124,7 +124,7 @@ class UserControllerTest {
     }
 
     @Test
-    void shouldReturnErrorWhenWrongUserIdForGetUserByEmail() throws Exception{
+    void shouldReturnErrorWhenWrongUserIdForGetUserByID() throws Exception{
         when(userService.getUserById(anyLong())).thenThrow(new UserNotFoundException("User Not found"));
         mockMvc.perform(get(API_V1_USERS+"/" + 2L))
                 .andExpect(status().isNotFound())
@@ -143,7 +143,7 @@ class UserControllerTest {
     void shouldReturnErrorWhenWWrongEmailForGetUserByEmail() throws Exception{
         when(userService.getUserByEmail(anyString())).thenThrow(new EmailDuplicateException("User not found with email"));
         mockMvc.perform(get(API_V1_USERS_EMAIL+"/hinsj@gmail.com"))
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andDo(print());
     }
 
