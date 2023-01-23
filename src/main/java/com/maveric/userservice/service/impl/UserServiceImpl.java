@@ -8,18 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
-    }
+    UserRepository userRepository;
 
     @Override
     public void deleteUser(long id) {
-        userRepository.findById(id).orElseThrow(
-                ()->new UserNotFoundException("User not found with id " + id));
-        userRepository.deleteById(id);
+        if (userRepository.findById(id).isPresent()){
+            userRepository.deleteById(id);
+        }
+        else {
+            throw new UserNotFoundException("User not found with id " + id);
+        }
     }
 }
