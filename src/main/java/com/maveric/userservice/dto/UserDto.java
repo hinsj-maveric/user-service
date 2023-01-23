@@ -1,5 +1,6 @@
 package com.maveric.userservice.dto;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.constraints.BirthDateValidator;
@@ -7,7 +8,7 @@ import com.maveric.userservice.constraints.GenderValidator;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
+
 import lombok.Data;
 
 import java.util.Date;
