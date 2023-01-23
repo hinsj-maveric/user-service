@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserService {
         Page<User> userPage = userRepository.findAll(pageable);
 
         List<User> users = userPage.getContent();
-        List<UserDto> userDtos = users.stream().map(user -> dtoToModelConverter.userToDtoUpdate(user)).collect(Collectors.toList());
-        return userDtos;
+        return users.stream().map(user -> dtoToModelConverter.userToDtoUpdate(user)).toList();
     }
 }
