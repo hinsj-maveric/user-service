@@ -60,7 +60,7 @@ class UserControllerTest {
     @Test
     void shouldThrowErrorWhenCreateUserDetailsAreWrong() throws Exception{
         UserDto user = new UserDto();
-        user.setId(1l);
+        user.setId("1l");
         user.setFirstName(null);
         user.setMiddleName("D");
         user.setLastName("Jain");
@@ -80,8 +80,8 @@ class UserControllerTest {
 
     @Test
     void updateUser() throws Exception {
-        when(userService.updateUser(any(UserDto.class), anyLong())).thenReturn(getUserDto());
-        mockMvc.perform(put(API_V1_USERS + "/" +1L)
+        when(userService.updateUser(any(UserDto.class), anyString())).thenReturn(getUserDto());
+        mockMvc.perform(put(API_V1_USERS + "/" +"1L")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(getUser()))).andExpect(status().isOk())
                 .andDo(print());
@@ -90,7 +90,7 @@ class UserControllerTest {
     @Test
     void shouldThrowErrorWhenUpdateUserDetailsAreWrong() throws Exception{
         UserDto user = new UserDto();
-        user.setId(1l);
+        user.setId("1l");
         user.setFirstName(null);
         user.setMiddleName("D");
         user.setLastName("Jain");
@@ -100,7 +100,7 @@ class UserControllerTest {
         user.setDateOfBirth(Date.from(Instant.parse("1994-10-27T00:00:00Z")));
         user.setPhoneNumber("9594484384");
 
-        mockMvc.perform(put(API_V1_USERS + "/" +1L)
+        mockMvc.perform(put(API_V1_USERS + "/" +"1L")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isBadRequest())
@@ -117,16 +117,16 @@ class UserControllerTest {
 
     @Test
     void getUserById() throws Exception{
-        when(userService.getUserById(anyLong())).thenReturn(getUserDto());
-        mockMvc.perform(get(API_V1_USERS + "/" + 1L))
+        when(userService.getUserById(anyString())).thenReturn(getUserDto());
+        mockMvc.perform(get(API_V1_USERS + "/" + "1L"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
     void shouldReturnErrorWhenWrongUserIdForGetUserByID() throws Exception{
-        when(userService.getUserById(anyLong())).thenThrow(new UserNotFoundException("User Not found"));
-        mockMvc.perform(get(API_V1_USERS+"/" + 2L))
+        when(userService.getUserById(anyString())).thenThrow(new UserNotFoundException("User Not found"));
+        mockMvc.perform(get(API_V1_USERS+"/" + "2L"))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -149,14 +149,14 @@ class UserControllerTest {
 
     @Test
     void deleteUser() throws Exception{
-        mockMvc.perform(delete(API_V1_USERS + "/" + 1L))
+        mockMvc.perform(delete(API_V1_USERS + "/" + "1L"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     public static User getUser() {
         User user = new User();
-        user.setId(1l);
+        user.setId("1l");
         user.setFirstName("Hins");
         user.setMiddleName("D");
         user.setLastName("Jain");
@@ -172,7 +172,7 @@ class UserControllerTest {
 
     public static UserDto getUserDto() {
         UserDto user = new UserDto();
-        user.setId(1l);
+        user.setId("1l");
         user.setFirstName("Hins");
         user.setMiddleName("D");
         user.setLastName("Jain");

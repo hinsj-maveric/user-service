@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 public class UserDto {
 
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "First name cannot be blank")
     private String firstName;
