@@ -2,6 +2,7 @@ package com.maveric.userservice.service.impl;
 
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.exception.EmailDuplicateException;
 import com.maveric.userservice.exception.UserNotFoundException;
 import com.maveric.userservice.model.User;
@@ -79,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByEmail(String email) {
+    public UserEmailDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(
                 ()-> new EmailDuplicateException("User not found with email " + email));
         return dtoToModelConverter.userToDtoEmail(user);

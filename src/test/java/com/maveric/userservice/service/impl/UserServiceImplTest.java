@@ -3,6 +3,7 @@ package com.maveric.userservice.service.impl;
 import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -86,9 +87,9 @@ class UserServiceImplTest {
     @Test
     void getUserByEmail(){
         when(mockedUserRepository.findUserByEmail("hinsj@maveric-systems.com")).thenReturn(Optional.of(getUser()));
-        when(dtoToModelConverter.userToDtoEmail(any(User.class))).thenReturn(getUserDto());
+        when(dtoToModelConverter.userToDtoEmail(any(User.class))).thenReturn(getUserEmailDto());
 
-        UserDto user = mockedUserService.getUserByEmail("hinsj@maveric-systems.com");
+        UserEmailDto user = mockedUserService.getUserByEmail("hinsj@maveric-systems.com");
 
         assertNotNull(user);
         assertSame(user.getEmail(),getUser().getEmail());
@@ -121,6 +122,21 @@ class UserServiceImplTest {
 
     public static UserDto getUserDto() {
         UserDto user = new UserDto();
+        user.setFirstName("Hins");
+        user.setMiddleName("D");
+        user.setLastName("Jain");
+        user.setAddress("Mumbai");
+        user.setGender(Gender.MALE);
+        user.setEmail("hinsj@maveric-systems.com");
+        user.setPassword("Pass@word1");
+        user.setDateOfBirth(Date.from(Instant.parse("1994-10-27T00:00:00Z")));
+        user.setPhoneNumber("9594484384");
+
+        return user;
+    }
+
+    public static UserEmailDto getUserEmailDto() {
+        UserEmailDto user = new UserEmailDto();
         user.setFirstName("Hins");
         user.setMiddleName("D");
         user.setLastName("Jain");

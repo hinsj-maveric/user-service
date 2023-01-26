@@ -1,6 +1,7 @@
 package com.maveric.userservice.controller;
 
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,8 @@ public class UserController {
     }
 
     @GetMapping("/users/getUserByEmail/{emailId}")
-    public ResponseEntity<UserDto> getUserByEmail(@PathVariable("emailId") String email) {
-        return new ResponseEntity<UserDto>(userService.getUserByEmail(email), HttpStatus.OK);
+    public ResponseEntity<UserEmailDto> getUserByEmail(@PathVariable("emailId") String email) {
+        return new ResponseEntity<UserEmailDto>(userService.getUserByEmail(email), HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")

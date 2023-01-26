@@ -2,6 +2,7 @@ package com.maveric.userservice.converter;
 
 import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,7 +55,7 @@ class DtoToModelConverterTest {
     @Test
     void userToDtoEmail() {
         User user = getUser();
-        UserDto userDto = dtoToModelConverter.userToDtoEmail(user);
+        UserEmailDto userDto = dtoToModelConverter.userToDtoEmail(user);
         assertNotNull(userDto.getEmail());
         assertSame(user.getEmail(), userDto.getEmail());
     }

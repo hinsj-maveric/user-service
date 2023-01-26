@@ -3,6 +3,7 @@ package com.maveric.userservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.dto.UserDto;
+import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.exception.EmailDuplicateException;
 import com.maveric.userservice.exception.UserNotFoundException;
 import com.maveric.userservice.model.User;
@@ -133,7 +134,7 @@ class UserControllerTest {
 
     @Test
     void getUserByEmail() throws Exception{
-        when(userService.getUserByEmail(any())).thenReturn(getUserDto());
+        when(userService.getUserByEmail(any())).thenReturn(getUserEmailDto());
         mockMvc.perform(get(API_V1_USERS_EMAIL + "/hinsj@maveric-systems.com"))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -172,6 +173,22 @@ class UserControllerTest {
 
     public static UserDto getUserDto() {
         UserDto user = new UserDto();
+        user.setId("1l");
+        user.setFirstName("Hins");
+        user.setMiddleName("D");
+        user.setLastName("Jain");
+        user.setAddress("Mumbai");
+        user.setGender(Gender.MALE);
+        user.setEmail("hinsj@maveric-systems.com");
+        user.setPassword("Pass@word1");
+        user.setDateOfBirth(Date.from(Instant.parse("1994-10-27T00:00:00Z")));
+        user.setPhoneNumber("9594484384");
+
+        return user;
+    }
+
+    public static UserEmailDto getUserEmailDto() {
+        UserEmailDto user = new UserEmailDto();
         user.setId("1l");
         user.setFirstName("Hins");
         user.setMiddleName("D");
