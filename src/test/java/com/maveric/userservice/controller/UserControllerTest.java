@@ -84,7 +84,8 @@ class UserControllerTest {
         when(userService.updateUser(any(UserDto.class), anyString())).thenReturn(getUserDto());
         mockMvc.perform(put(API_V1_USERS + "/" +"1L")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(getUser()))).andExpect(status().isOk())
+                .content(objectMapper.writeValueAsString(getUser())).header("userid", "1L"))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
@@ -119,7 +120,7 @@ class UserControllerTest {
     @Test
     void getUserById() throws Exception{
         when(userService.getUserById(anyString())).thenReturn(getUserDto());
-        mockMvc.perform(get(API_V1_USERS + "/" + "1L"))
+        mockMvc.perform(get(API_V1_USERS + "/" + "1L").header("userid", "1L"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
@@ -127,7 +128,7 @@ class UserControllerTest {
     @Test
     void shouldReturnErrorWhenWrongUserIdForGetUserByID() throws Exception{
         when(userService.getUserById(anyString())).thenThrow(new UserNotFoundException("User Not found"));
-        mockMvc.perform(get(API_V1_USERS+"/" + "2L"))
+        mockMvc.perform(get(API_V1_USERS+"/" + "2L").header("userid", "1L"))
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
@@ -150,7 +151,7 @@ class UserControllerTest {
 
     @Test
     void deleteUser() throws Exception{
-        mockMvc.perform(delete(API_V1_USERS + "/" + "1L"))
+        mockMvc.perform(delete(API_V1_USERS + "/" + "1L").header("userid", "1L"))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
