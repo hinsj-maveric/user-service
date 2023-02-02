@@ -2,7 +2,9 @@ package com.maveric.userservice.controller;
 
 import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;
+import com.maveric.userservice.exception.UserIdMismatchException;
 import com.maveric.userservice.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,8 +43,13 @@ public class UserController {
     }
     
     @PutMapping("/users/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") String userId, @Valid @RequestBody UserDto userDto) {
-        return new ResponseEntity<>(userService.updateUser(userDto, userId), HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") String userId, @Valid @RequestBody UserDto userDto,
+                                              HttpServletRequest request) {
+        if(request.getHeader("userid").equals(userId)) {
+            return new ResponseEntity<>(userService.updateUser(userDto, userId), HttpStatus.OK);
+        }else{
+            throw new UserIdMismatchException("You are not an authorized user");
+        }
     }
 
     @GetMapping("/users")
@@ -52,8 +59,12 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") String id) {
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") String id, HttpServletRequest request) {
+        if(request.getHeader("userid").equals(id)) {
+            return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        }else{
+            throw new UserIdMismatchException("You are not an authorized user");
+        }
     }
 
     @GetMapping("/users/getUserByEmail/{emailId}")
@@ -62,8 +73,12 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable("userId") String id){
-        userService.deleteUser(id);
-        return new ResponseEntity<>("User Deleted Successfully", HttpStatus.OK);
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") String id, HttpServletRequest request){
+        if(request.getHeader("userid").equals(id)) {
+            userService.deleteUser(id);
+            return new ResponseEntity<>("User Deleted Successfully", HttpStatus.OK);
+        }else{
+            throw new UserIdMismatchException("You are not an authorized user");
+        }
     }
 }
