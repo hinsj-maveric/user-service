@@ -6,6 +6,7 @@ import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;
 import com.maveric.userservice.exception.EmailDuplicateException;
 import com.maveric.userservice.exception.UserNotFoundException;
+import com.maveric.userservice.feignclient.FeignUserService;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.repository.UserRepository;
 import com.maveric.userservice.service.UserService;
@@ -39,6 +40,9 @@ class UserControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    FeignUserService feignUserService;
 
     @Autowired
     private MockMvc mockMvc;
