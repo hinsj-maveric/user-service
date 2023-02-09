@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -68,6 +69,13 @@ public class GlobalExceptionHandler {
         Error error = getError(e.getMessage(), String.valueOf(HttpStatus.NOT_FOUND.value()));
 
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpServerErrorException.InternalServerError.class)
+    public ResponseEntity<Error> httpServerErrorException(HttpServerErrorException e) {
+        Error error = getError(e.getMessage(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private Error getError(String message , String code){
