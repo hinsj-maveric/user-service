@@ -2,6 +2,8 @@ package com.maveric.userservice.exception;
 
 import com.maveric.userservice.constant.MessageConstant;
 import com.maveric.userservice.dto.Error;
+import feign.FeignException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -76,6 +78,22 @@ public class GlobalExceptionHandler {
         Error error = getError(e.getMessage(), String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
 
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FeignException.NotFound.class)
+    public ResponseEntity<Error> handleFeignExceptionNotFound(FeignException e, HttpServletResponse response) {
+        String message = e.contentUTF8();
+        String decode = (String) e.contentUTF8().subSequence(message.lastIndexOf(":\""), message.length()-2);
+        Error error = getError(decode.replace(":\"", ""), String.valueOf(HttpStatus.NOT_FOUND.value()));
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FeignException.BadRequest.class)
+    public ResponseEntity<Error> handleFeignExceptionBadRequest(FeignException e, HttpServletResponse response) {
+        String message = e.contentUTF8();
+        String decode = (String) e.contentUTF8().subSequence(message.lastIndexOf(":\""), message.length()-2);
+        Error error = getError(decode.replace(":\"", ""), String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     private Error getError(String message , String code){
