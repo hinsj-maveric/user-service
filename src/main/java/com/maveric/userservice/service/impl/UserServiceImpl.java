@@ -1,5 +1,6 @@
 package com.maveric.userservice.service.impl;
 
+import com.maveric.userservice.UserServiceApplication;
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;
@@ -8,6 +9,8 @@ import com.maveric.userservice.exception.UserNotFoundException;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.repository.UserRepository;
 import com.maveric.userservice.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     DtoToModelConverter dtoToModelConverter;
 
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceApplication.class);
+
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = dtoToModelConverter.dtoToUserCreate(userDto);
@@ -32,9 +37,11 @@ public class UserServiceImpl implements UserService {
         if (!existingUser.isPresent()) {
 
             User savedUser = userRepository.save(user);
+            logger.info("User created with email " + user.getEmail());
             return dtoToModelConverter.userToDtoCreate(savedUser);
 
         } else {
+            logger.info("Email already exist " + user.getEmail());
             throw new EmailDuplicateException(
                     "User with email " + userDto.getEmail() + " already exist");
         }
@@ -50,6 +57,7 @@ public class UserServiceImpl implements UserService {
                 existingUser.setEmail(userDto.getEmail());
             }
             else {
+                logger.info("Email already exist " + userDto.getEmail());
                 throw new EmailDuplicateException("User with email " + userDto.getEmail() + " already exist");
             }
         } else {
@@ -65,6 +73,7 @@ public class UserServiceImpl implements UserService {
         existingUser.setPhoneNumber(userDto.getPhoneNumber());
 
         User updatedUser = userRepository.save(existingUser);
+        logger.info("User updated");
         return dtoToModelConverter.userToDtoUpdate(updatedUser);
     }
 
@@ -75,6 +84,7 @@ public class UserServiceImpl implements UserService {
         Page<User> userPage = userRepository.findAll(pageable);
 
         List<User> users = userPage.getContent();
+        logger.info("List of users");
         return users.stream().map(user -> dtoToModelConverter.userToDtoUpdate(user)).toList();
     }
 
@@ -82,6 +92,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(String id) {
         User user = userRepository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("User not found with id " + id));
+        logger.info("User found");
         return dtoToModelConverter.userToDtoUpdate(user);
     }
 
@@ -89,6 +100,7 @@ public class UserServiceImpl implements UserService {
     public UserEmailDto getUserByEmail(String email) {
         User user = userRepository.findUserByEmail(email).orElseThrow(
                 ()-> new EmailDuplicateException("User not found with email " + email));
+        logger.info("User found with email " + user.getEmail());
         return dtoToModelConverter.userToDtoEmail(user);
     }
 
@@ -96,6 +108,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(String id) {
         if (userRepository.findById(id).isPresent()){
             userRepository.deleteById(id);
+            logger.info("User deleted");
         }
         else {
             throw new UserNotFoundException("User not found with id " + id);
