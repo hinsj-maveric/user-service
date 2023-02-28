@@ -1,6 +1,5 @@
 package com.maveric.userservice.controller;
 
-import com.maveric.userservice.UserServiceApplication;
 import com.maveric.userservice.constant.MessageConstant;
 import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;

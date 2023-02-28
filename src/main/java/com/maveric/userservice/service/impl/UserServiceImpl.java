@@ -1,6 +1,5 @@
 package com.maveric.userservice.service.impl;
 
-import com.maveric.userservice.UserServiceApplication;
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     DtoToModelConverter dtoToModelConverter;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public UserDto createUser(UserDto userDto) {
