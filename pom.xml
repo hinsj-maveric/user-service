@@ -18,17 +18,10 @@
 		<spring-cloud.version>2022.0.0</spring-cloud.version>
 		<!-- JaCoCo Properties -->
 		<jacoco.version>0.8.8</jacoco.version>
-		<project.test.result.directory>${project.build.directory}/test-results</project.test.result.directory>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.scm.provider>git</sonar.scm.provider>
-		<sonar.java.codeCoveragePlugin>jacoco</sonar.java.codeCoveragePlugin>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.test.result.directory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<sonar.exclusions>
-			**/*.xml
-		</sonar.exclusions>
-		<sonar.coverage.exclusions>
-			**/qualitymeasurementsample/*
-		</sonar.coverage.exclusions>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -161,28 +154,20 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.6</version>
+				<version>${jacoco.version}</version>
 				<executions>
 					<execution>
-						<id>pre-test</id>
+						<id>jacoco-initialize</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
-						<configuration>
-							<propertyName>jacocoArgLine</propertyName>
-							<destFile>${project.test.result.directory}/jacoco/jacoco.exec</destFile>
-						</configuration>
 					</execution>
 					<execution>
-						<id>post-test</id>
-						<phase>test</phase>
+						<id>jacoco-site</id>
+						<phase>package</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
-						<configuration>
-							<dataFile>${project.test.result.directory}/jacoco/jacoco.exec</dataFile>
-							<outputDirectory>${project.test.result.directory}/jacoco</outputDirectory>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
