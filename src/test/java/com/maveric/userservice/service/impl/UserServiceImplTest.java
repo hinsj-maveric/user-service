@@ -4,6 +4,8 @@ import com.maveric.userservice.constant.Gender;
 import com.maveric.userservice.converter.DtoToModelConverter;
 import com.maveric.userservice.dto.UserDto;
 import com.maveric.userservice.dto.UserEmailDto;
+import com.maveric.userservice.exception.EmailDuplicateException;
+import com.maveric.userservice.exception.UserNotFoundException;
 import com.maveric.userservice.model.User;
 import com.maveric.userservice.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -103,6 +105,39 @@ class UserServiceImplTest {
         mockedUserService.deleteUser("1L");
 
         verify(mockedUserRepository).deleteById("1L");
+    }
+
+    @Test
+    void throwErrorWhenUserIdNotFoundForDeleteUser(){
+        Throwable error = assertThrows(UserNotFoundException.class,()->mockedUserService.deleteUser("1L"));
+        assertEquals("User not found with id 1L",error.getMessage());
+    }
+
+    @Test
+    void throwErrorWhenEmailNotFoundForGetUserByEmail(){
+        Throwable error = assertThrows(EmailDuplicateException.class,()->mockedUserService.getUserByEmail("hinsj@maveric.com"));
+        assertEquals("User not found with email hinsj@maveric.com", error.getMessage());
+    }
+
+    @Test
+    void throwErrorWhenUserNotFoundForGetUserById(){
+        Throwable error = assertThrows(UserNotFoundException.class,()->mockedUserService.getUserById("1L"));
+        assertEquals("User not found with id 1L",error.getMessage());
+    }
+
+    @Test
+    void throwErrorWhenEmailNotFoundForCreateUser(){
+        when(dtoToModelConverter.dtoToUserCreate(any(UserDto.class))).thenReturn(getUser());
+        when(mockedUserRepository.findUserByEmail(any())).thenReturn(Optional.of(getUser()));
+
+        Throwable error = assertThrows(EmailDuplicateException.class,()->mockedUserService.createUser(getUserDto()));
+        assertEquals("User with email hinsj@maveric-systems.com already exist", error.getLocalizedMessage());
+    }
+
+    @Test
+    void throwErrorWhenIdNotFoundForUpdateUser(){
+        Throwable error = assertThrows(UserNotFoundException.class,()->mockedUserService.updateUser(getUserDto(),"1L"));
+        assertEquals("User not Found with id 1L", error.getMessage());
     }
 
     public static User getUser() {

@@ -94,6 +94,16 @@ class UserControllerTest {
     }
 
     @Test
+    void errorWithDifferentUserIdForUpdateUser() throws Exception {
+        when(userService.updateUser(any(UserDto.class), anyString())).thenReturn(getUserDto());
+        mockMvc.perform(put(API_V1_USERS + "/" +"1L")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(getUser())).header("userid", "2L"))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
     void shouldThrowErrorWhenUpdateUserDetailsAreWrong() throws Exception{
         UserDto user = new UserDto();
         user.setId("1l");
@@ -157,6 +167,13 @@ class UserControllerTest {
     void deleteUser() throws Exception{
         mockMvc.perform(delete(API_V1_USERS + "/" + "1L").header("userid", "1L"))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void shouldThrowErrorFordeleteUserWhenWrongUserId() throws Exception{
+        mockMvc.perform(delete(API_V1_USERS + "/" + "1L").header("userid", "2L"))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
